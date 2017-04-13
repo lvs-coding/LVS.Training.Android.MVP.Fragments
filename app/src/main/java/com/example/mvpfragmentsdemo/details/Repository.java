@@ -1,5 +1,6 @@
 package com.example.mvpfragmentsdemo.details;
 
+import com.example.mvpfragmentsdemo.network.apimodeldetails.Details;
 import com.example.mvpfragmentsdemo.network.apimodeltopmovies.Result;
 
 import rx.Observable;
@@ -9,9 +10,8 @@ import rx.Observable;
  */
 
 public interface Repository {
-    Observable<Result> getDetailsFromMemory();
 
-    Observable<Result> getDetailsFromNetwork();
+    Observable<Details> getDetailsFromNetwork(String movieTitle);
 
-    Observable<Result> getDetailstData();
+    Observable<Details> getDetailsData(String movieTitle);
 }

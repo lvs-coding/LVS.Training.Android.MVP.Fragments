@@ -16,6 +16,7 @@ import com.example.mvpfragmentsdemo.topmovies.TopMoviesFragment;
 import butterknife.BindView;
 
 public class MainActivity extends AppCompatActivity implements TopMoviesFragment.OnMovieTitleClickedListener{
+    private final String TAG = MainActivity.class.getSimpleName();
 
     @BindView(R.id.fl_fragment_container)
     FrameLayout flContainer;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements TopMoviesFragment
 
     @Override
     public void onMovieTitleClicked(String clickedMovieTitle) {
-        Log.d("TAG",clickedMovieTitle);
+        Log.d(TAG,clickedMovieTitle);
 
         Bundle bundle = new Bundle();
         bundle.putString("clickedMovieTitle", clickedMovieTitle);

@@ -28,13 +28,13 @@ import static java.util.Arrays.asList;
 
 
 public class TopMoviesFragment extends Fragment implements TopMoviesFragmentMVP.View {
+    @BindView(R.id.lv_topmovies)
+    ListView lvTopMovies;
+    @Inject
+    TopMoviesFragmentMVP.Presenter presenter;
     private OnMovieTitleClickedListener callback;
     private ArrayList<ViewModel> moviesList = new ArrayList<>();
     private ArrayAdapter<ViewModel> arrayAdapter;
-
-    public interface OnMovieTitleClickedListener {
-        void onMovieTitleClicked(String movieTitle);
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -48,34 +48,6 @@ public class TopMoviesFragment extends Fragment implements TopMoviesFragmentMVP.
             throw new ClassCastException(context.toString()
                     + " must implement OnListItemClickedListener");
         }
-    }
-
-    @BindView(R.id.lv_topmovies)
-    ListView lvTopMovies;
-
-    @Inject
-    TopMoviesFragmentMVP.Presenter presenter;
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        ((App) getActivity().getApplication()).getComponent().inject(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        presenter.rxUnsubscribe();
-        moviesList.clear();
-        arrayAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        presenter.setView(this);
-        presenter.loadData();
     }
 
     @Override
@@ -99,9 +71,35 @@ public class TopMoviesFragment extends Fragment implements TopMoviesFragmentMVP.
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        ((App) getActivity().getApplication()).getComponent().inject(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.setView(this);
+        presenter.loadData();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        presenter.rxUnsubscribe();
+        moviesList.clear();
+        arrayAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void updateData(ViewModel viewModel) {
         moviesList.add(viewModel);
         arrayAdapter.notifyDataSetChanged();
 
+    }
+
+    public interface OnMovieTitleClickedListener {
+        void onMovieTitleClicked(String movieTitle);
     }
 }

@@ -10,7 +10,6 @@ import rx.Observable;
 import rx.functions.Func1;
 import rx.functions.Func2;
 
-
 public class TopMoviesModel implements TopMoviesFragmentMVP.Model{
     private Repository repository;
 
